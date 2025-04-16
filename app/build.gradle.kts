@@ -1,9 +1,24 @@
+import java.io.FileNotFoundException
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.devtool.ksp)
     alias(libs.plugins.kotlin.serialization)
+}
+
+val localProperties: Properties by lazy {
+    val properties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+
+    if (localPropertiesFile.exists()) {
+        properties.load(localPropertiesFile.inputStream())
+    } else {
+        throw FileNotFoundException("Local properties file not found.")
+    }
+    properties
 }
 
 android {
@@ -18,6 +33,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(type = "String",name = "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
     }
 
     buildTypes {
@@ -38,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
