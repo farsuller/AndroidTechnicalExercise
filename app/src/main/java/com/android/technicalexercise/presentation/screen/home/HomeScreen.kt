@@ -1,16 +1,13 @@
 package com.android.technicalexercise.presentation.screen.home
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.technicalexercise.presentation.screen.home.components.HomeTopBar
+import com.android.technicalexercise.presentation.screen.home.components.WeatherContent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -20,26 +17,20 @@ fun HomeScreen() {
     val weatherState by homeViewModel.weatherState.collectAsStateWithLifecycle()
 
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = weatherState.cityName
-            )
-            Text(
-                text = weatherState.country
-            )
-            Text(
-                text = weatherState.cloudiness.toString()
-            )
-            Text(
-                text = weatherState.temperature.toString()
-            )
-        }
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            HomeTopBar(
+                onSignOutClick = {
 
+                })
+        }
+    ) { innerPadding ->
+
+        WeatherContent(
+            paddingValues = innerPadding,
+            weatherState = weatherState,
+        )
     }
 
 }

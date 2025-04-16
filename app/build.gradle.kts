@@ -75,7 +75,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    implementation(libs.coil.compose)
+    implementation(libs.bundles.bundle.coil)
 
     implementation (libs.material.icons.extended)
 
