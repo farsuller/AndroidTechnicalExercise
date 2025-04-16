@@ -24,15 +24,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
 import com.android.technicalexercise.presentation.screen.home.WeatherState
 import com.android.technicalexercise.ui.theme.AndroidTechnicalExerciseTheme
 import com.android.technicalexercise.ui.theme.Elevation
 import com.android.technicalexercise.ui.theme.Grey
+import com.android.technicalexercise.util.formatUnixToLocalTime
 import com.android.technicalexercise.util.kelvinToCelsius
 import com.android.technicalexercise.util.provideImageLoader
+import java.time.Instant
+import java.time.ZoneOffset
 
 
 @SuppressLint("DefaultLocale")
@@ -49,6 +54,7 @@ fun WeatherCard(
         imageLoader = imageLoader,
     )
 
+    val localTimeString = formatUnixToLocalTime(weatherState.dt.toLong(), weatherState.timeZone)
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -71,7 +77,6 @@ fun WeatherCard(
             ) {
                 CircleBackground()
             }
-
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -97,6 +102,15 @@ fun WeatherCard(
                             fontFamily = MaterialTheme.typography.titleLarge.fontFamily,
                         ),
                         color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = localTimeString,
+                        fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        lineHeight = 14.sp,
+                        textAlign = TextAlign.Center
                     )
                 }
 

@@ -17,6 +17,8 @@ data class WeatherState(
     val sunset: Int = 0,
     val timezone: Int = 0,
     val country: String = "",
+    val dt: Int = 0,
+    val timeZone: Int = 0,
     val isLoading: Boolean = false,
     val errorMessage: String? = null
 )

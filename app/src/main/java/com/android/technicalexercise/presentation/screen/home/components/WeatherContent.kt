@@ -1,6 +1,5 @@
 package com.android.technicalexercise.presentation.screen.home.components
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,32 +18,38 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
 import com.android.technicalexercise.R
+import com.android.technicalexercise.domain.model.Location
 import com.android.technicalexercise.presentation.screen.home.WeatherState
 import com.android.technicalexercise.util.Tabs
 import com.android.technicalexercise.util.convertUnixToReadableTime
-import com.android.technicalexercise.util.provideImageLoader
+import com.android.technicalexercise.util.isNightTime
 
 
-@SuppressLint("DefaultLocale")
 @Composable
 fun WeatherContent(
     paddingValues: PaddingValues,
     weatherState: WeatherState,
+    location: Location?
 ) {
     var selectedTabIndex by remember { mutableIntStateOf(Tabs.HOME.ordinal) }
     val tabs = Tabs.entries
 
-    val weatherIconNow = remember {
-        when (weatherState.weatherMain) {
-            "Clear" -> R.drawable.sun
-            "Rain", "Moderate Rain" -> R.drawable.rain
-            "Clouds" -> R.drawable.cloudy
-            "Partially cloudy" -> R.drawable.sun
-            "Thunder" -> R.drawable.thunder
+    val weatherIconNow = remember(weatherState) {
+
+        val isNight = isNightTime(
+            unixSeconds = System.currentTimeMillis() / 1000,
+            timezoneOffsetInSeconds = weatherState.timezone
+        )
+
+        when {
+            isNight -> R.drawable.night2
+            weatherState.weatherMain == "Clear" -> R.drawable.sun
+            weatherState.weatherMain == "Rain" || weatherState.weatherMain == "Moderate Rain" -> R.drawable.rain
+            weatherState.weatherMain == "Clouds" -> R.drawable.cloudy
+            weatherState.weatherMain == "Partially cloudy" -> R.drawable.sun
+            weatherState.weatherMain == "Thunder" -> R.drawable.thunder
             else -> R.drawable.sun
         }
     }
@@ -76,7 +81,8 @@ fun WeatherContent(
                     weatherState.isLoading -> ContentLoading()
                     weatherState.errorMessage != null -> ContentError(weatherState.errorMessage)
                     else -> {
-                        val sunriseText = convertUnixToReadableTime(weatherState.sunrise, weatherState.timezone)
+                        val sunriseText =
+                            convertUnixToReadableTime(weatherState.sunrise, weatherState.timezone)
                         val sunsetText =
                             convertUnixToReadableTime(weatherState.sunset, weatherState.timezone)
 

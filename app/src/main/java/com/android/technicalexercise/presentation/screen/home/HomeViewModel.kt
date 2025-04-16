@@ -1,7 +1,10 @@
 package com.android.technicalexercise.presentation.screen.home
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.technicalexercise.domain.model.Location
 import com.android.technicalexercise.domain.usecase.WeatherUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,14 +18,17 @@ class HomeViewModel (
     private val weatherUseCase: WeatherUseCase
 ): ViewModel() {
 
+    private val _location = mutableStateOf<Location?>(null)
+    val location : State<Location?> = _location
+
     private val _weatherState = MutableStateFlow(WeatherState())
     val weatherState: StateFlow<WeatherState> = _weatherState.asStateFlow()
 
-    init {
-        getWeatherData(latitude = 14.7068476, longitude = 121.1055019)
+    fun updateLocation (location: Location){
+        _location.value = location
     }
 
-    private fun getWeatherData(latitude: Double, longitude: Double) = viewModelScope.launch {
+    fun getWeatherData(latitude: Double, longitude: Double) = viewModelScope.launch {
         weatherUseCase.getWeather(latitude = latitude, longitude = longitude)
             .onStart {
                 _weatherState.value = WeatherState(isLoading = true)
@@ -50,6 +56,8 @@ class HomeViewModel (
                             sunset = weatherResponse.sys.sunset,
                             timezone = weatherResponse.timezone,
                             country = weatherResponse.sys.country,
+                            dt = weatherResponse.dt,
+                            timeZone = weatherResponse.timezone,
                             isLoading = false,
                             errorMessage = null
                         )
