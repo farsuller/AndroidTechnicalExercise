@@ -42,8 +42,6 @@ fun CircleBackground() {
             .background(MaterialTheme.colorScheme.primary),
     )
 
-
-
     Box(
         modifier = Modifier
             .size(120.dp)

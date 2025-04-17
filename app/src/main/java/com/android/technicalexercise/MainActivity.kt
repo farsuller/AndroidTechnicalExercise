@@ -16,7 +16,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidTechnicalExerciseTheme {
                 Surface {
-
                     val navController = rememberNavController()
 
                     WeatherNavigation(navController = navController)

@@ -13,4 +13,3 @@ data object LoginRoute
 
 @Serializable
 data object HomeRoute
-

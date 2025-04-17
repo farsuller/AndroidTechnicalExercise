@@ -3,10 +3,7 @@ package com.android.technicalexercise.presentation.screen.home.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,7 +23,7 @@ import com.android.technicalexercise.util.provideImageLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar(onSignOutClick:()-> Unit) {
+fun HomeTopBar(onSignOutClick: () -> Unit) {
     val context = LocalContext.current
     val imageLoader = remember { provideImageLoader(context) }
 
@@ -54,14 +51,15 @@ fun HomeTopBar(onSignOutClick:()-> Unit) {
                 fontSize = MaterialTheme.typography.titleLarge.fontSize,
                 color = MaterialTheme.colorScheme.onSurface,
             )
-        }, actions = {
-
+        },
+        actions = {
             IconButton(onClick = onSignOutClick) {
                 Image(
                     modifier = Modifier.size(25.dp),
                     painter = painter,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
-        })
+        },
+    )
 }

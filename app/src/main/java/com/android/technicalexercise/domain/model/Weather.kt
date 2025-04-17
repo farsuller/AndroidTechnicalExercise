@@ -6,22 +6,22 @@ data class Weather(
     val description: String,
     val icon: String,
     val id: Int,
-    val main: String
+    val main: String,
 )
 
 data class Coordinates(
     val lat: Double,
-    val lon: Double
+    val lon: Double,
 )
 
 data class Wind(
     val deg: Int,
     val gust: Double,
-    val speed: Double
+    val speed: Double,
 )
 
 data class Clouds(
-    val all: Int
+    val all: Int,
 )
 
 data class Sys(
@@ -29,7 +29,7 @@ data class Sys(
     val id: Int,
     val sunrise: Int,
     val sunset: Int,
-    val type: Int
+    val type: Int,
 )
 
 data class Main(
@@ -56,6 +56,5 @@ data class Main(
     val tempMax: Double,
 
     @SerializedName("temp_min")
-    val tempMin: Double
+    val tempMin: Double,
 )
-

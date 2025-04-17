@@ -6,6 +6,7 @@ import com.android.technicalexercise.data.repository.WeatherRepositoryImpl
 import com.android.technicalexercise.domain.repository.WeatherRepository
 import com.android.technicalexercise.domain.usecase.GetWeather
 import com.android.technicalexercise.domain.usecase.WeatherUseCase
+import com.android.technicalexercise.presentation.screen.auth.AuthViewModel
 import com.android.technicalexercise.presentation.screen.home.HomeViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -45,6 +46,7 @@ val appModule = module {
     }
 
     viewModel { HomeViewModel(weatherUseCase = get()) }
+    viewModel { AuthViewModel() }
 
 }
 

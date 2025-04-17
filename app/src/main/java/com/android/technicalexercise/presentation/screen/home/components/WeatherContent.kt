@@ -20,36 +20,34 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.android.technicalexercise.R
-import com.android.technicalexercise.domain.model.Location
 import com.android.technicalexercise.presentation.screen.home.WeatherState
 import com.android.technicalexercise.util.Tabs
 import com.android.technicalexercise.util.convertUnixToReadableTime
 import com.android.technicalexercise.util.isNightTime
 
-
 @Composable
 fun WeatherContent(
     paddingValues: PaddingValues,
     weatherState: WeatherState,
-    location: Location?
 ) {
     var selectedTabIndex by remember { mutableIntStateOf(Tabs.HOME.ordinal) }
     val tabs = Tabs.entries
 
-    val weatherIconNow = remember(weatherState) {
+    val weather = weatherState.weatherData
 
+    val weatherIconNow = remember(weatherState) {
         val isNight = isNightTime(
             unixSeconds = System.currentTimeMillis() / 1000,
-            timezoneOffsetInSeconds = weatherState.timezone
+            timezoneOffsetInSeconds = weather?.timezone ?: 0,
         )
 
         when {
             isNight -> R.drawable.night2
-            weatherState.weatherMain == "Clear" -> R.drawable.sun
-            weatherState.weatherMain == "Rain" || weatherState.weatherMain == "Moderate Rain" -> R.drawable.rain
-            weatherState.weatherMain == "Clouds" -> R.drawable.cloudy
-            weatherState.weatherMain == "Partially cloudy" -> R.drawable.sun
-            weatherState.weatherMain == "Thunder" -> R.drawable.thunder
+            weather?.weatherMain == "Clear" -> R.drawable.sun
+            weather?.weatherMain == "Rain" || weather?.weatherMain == "Moderate Rain" -> R.drawable.rain
+            weather?.weatherMain == "Clouds" -> R.drawable.cloudy
+            weather?.weatherMain == "Partially cloudy" -> R.drawable.sun
+            weather?.weatherMain == "Thunder" -> R.drawable.thunder
             else -> R.drawable.sun
         }
     }
@@ -57,7 +55,7 @@ fun WeatherContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = paddingValues.calculateTopPadding())
+            .padding(top = paddingValues.calculateTopPadding()),
     ) {
         TabRow(selectedTabIndex = selectedTabIndex) {
             tabs.forEachIndexed { index, tab ->
@@ -68,9 +66,9 @@ fun WeatherContent(
                     icon = {
                         Icon(
                             imageVector = tab.icon,
-                            contentDescription = tab.title
+                            contentDescription = tab.title,
                         )
-                    }
+                    },
                 )
             }
         }
@@ -80,18 +78,16 @@ fun WeatherContent(
                 when {
                     weatherState.isLoading -> ContentLoading()
                     weatherState.errorMessage != null -> ContentError(weatherState.errorMessage)
-                    else -> {
-                        val sunriseText =
-                            convertUnixToReadableTime(weatherState.sunrise, weatherState.timezone)
-                        val sunsetText =
-                            convertUnixToReadableTime(weatherState.sunset, weatherState.timezone)
+                    weatherState.weatherData != null -> {
+                        val sunriseText = convertUnixToReadableTime(weather.sunrise, weather.timezone)
+                        val sunsetText = convertUnixToReadableTime(weather.sunset, weather.timezone)
 
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(10.dp)
+                                .padding(10.dp),
                         ) {
-                            Text(text = "Area: ${weatherState.cityName}, ${weatherState.country}")
+                            Text(text = "Area: ${weather.cityName}, ${weather.country}")
 
                             Spacer(modifier = Modifier.height(20.dp))
 
@@ -100,34 +96,26 @@ fun WeatherContent(
                                     modifier = Modifier.weight(1f),
                                     label = "Sunrise",
                                     timeText = sunriseText,
-                                    icon = R.drawable.sunrise
+                                    icon = R.drawable.sunrise,
                                 )
                                 SunIconColumn(
                                     modifier = Modifier.weight(1f),
                                     label = "Sunset",
                                     timeText = sunsetText,
-                                    icon = R.drawable.sunset
+                                    icon = R.drawable.sunset,
                                 )
                             }
 
                             WeatherCard(weatherState = weatherState, iconImage = weatherIconNow)
 
                             Spacer(modifier = Modifier.height(20.dp))
-
                         }
                     }
                 }
             }
 
             Tabs.HISTORY -> {
-
             }
         }
     }
 }
-
-
-
-
-
-

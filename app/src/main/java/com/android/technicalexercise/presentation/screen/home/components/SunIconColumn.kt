@@ -13,13 +13,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.android.technicalexercise.R
 
-
 @Composable
 fun SunIconColumn(
     modifier: Modifier = Modifier,
     label: String,
     timeText: String,
-    @DrawableRes icon: Int = R.drawable.sunset
+    @DrawableRes icon: Int = R.drawable.sunset,
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "$label: $timeText")
@@ -27,7 +26,7 @@ fun SunIconColumn(
             modifier = Modifier.size(50.dp),
             painter = painterResource(id = icon),
             contentDescription = "$label Icon",
-            tint = MaterialTheme.colorScheme.primary
+            tint = MaterialTheme.colorScheme.primary,
         )
     }
 }

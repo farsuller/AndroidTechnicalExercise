@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "694376887880",
+    "project_id": "android-technical-exercise",
+    "storage_bucket": "android-technical-exercise.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694376887880:android:2cd9537b711563990aca7d",
+        "android_client_info": {
+          "package_name": "com.android.technicalexercise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxZ159oA9dDsPfjZEgFrwTZmJLmASmBEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

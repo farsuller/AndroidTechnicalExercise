@@ -9,10 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ContentError(errorMessage : String) {
+fun ContentError(errorMessage: String) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(modifier = Modifier.matchParentSize()) {
             Text(text = "Error: $errorMessage")

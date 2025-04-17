@@ -1,6 +1,6 @@
 [versions]
 agp = "8.9.1"
-kotlin = "2.0.21"
+kotlin = "2.1.20"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -9,6 +9,7 @@ espressoCore = "3.6.1"
 activityCompose = "1.10.1"
 composeBom = "2025.04.00"
 
+kotlinxCoroutinesTest = "1.9.0"
 lifecycleViewmodelCompose = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
 lifecycleRuntimeKtx = "2.8.7"
@@ -41,11 +42,22 @@ firebaseBom = "33.12.0"
 
 playServicesLocation = "21.3.0"
 
+spotless = "6.19.0"
+
+mockk = "1.13.9"
+navigationTesting = "2.8.9"
+koinTest = "3.5.3"
+koinTestJunit4 = "3.5.3"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigationTesting" }
+
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinTestJunit4" }
 
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -89,12 +101,19 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 
+spotless = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 devtool-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolKsp" }
+google-gms-google-services = {id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices"}
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 [bundles]
 bundle-coil = [

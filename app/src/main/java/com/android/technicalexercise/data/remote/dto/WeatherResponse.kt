@@ -8,7 +8,6 @@ import com.android.technicalexercise.domain.model.Weather
 import com.android.technicalexercise.domain.model.Wind
 import com.google.gson.annotations.SerializedName
 
-
 data class WeatherResponse(
     @SerializedName("coord")
     val coordinates: Coordinates,
@@ -25,11 +24,3 @@ data class WeatherResponse(
     val name: String,
     val cod: Int,
 )
-
-
-
-
-
-
-
-

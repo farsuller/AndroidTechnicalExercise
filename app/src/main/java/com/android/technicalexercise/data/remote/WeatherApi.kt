@@ -1,6 +1,5 @@
 package com.android.technicalexercise.data.remote
 
-
 import com.android.technicalexercise.data.remote.dto.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,7 +10,6 @@ interface WeatherApi {
     suspend fun getWeather(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
-        @Query("APPID") apiKey: String
+        @Query("APPID") apiKey: String,
     ): Response<WeatherResponse>
-
 }

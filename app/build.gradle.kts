@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.devtool.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 val localProperties: Properties by lazy {
@@ -100,10 +101,19 @@ dependencies {
     implementation(libs.play.services.location)
 
     testImplementation(libs.junit)
+    testImplementation (libs.kotlinx.coroutines.test)
+    testImplementation (libs.mockk)
+
+    testImplementation(libs.koin.test)
+    androidTestImplementation(libs.koin.test.junit4)
+
+    androidTestImplementation (libs.mockk)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation (libs.androidx.navigation.testing)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

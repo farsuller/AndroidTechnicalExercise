@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface WeatherRepository {
-    fun getWeather(latitude : Double, longitude : Double): Flow<Response<WeatherResponse>>
+    fun getWeather(latitude: Double, longitude: Double): Flow<Response<WeatherResponse>>
 }
