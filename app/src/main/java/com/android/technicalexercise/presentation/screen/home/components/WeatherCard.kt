@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
-import com.android.technicalexercise.presentation.screen.home.WeatherState
+import com.android.technicalexercise.domain.model.WeatherData
 import com.android.technicalexercise.ui.theme.AndroidTechnicalExerciseTheme
 import com.android.technicalexercise.ui.theme.Elevation
 import com.android.technicalexercise.ui.theme.Grey
@@ -40,19 +40,19 @@ import com.android.technicalexercise.util.provideImageLoader
 @SuppressLint("DefaultLocale")
 @Composable
 fun WeatherCard(
-    weatherState: WeatherState,
+    weatherData: WeatherData,
     @DrawableRes iconImage: Int,
+    isHistory: Boolean = false,
 ) {
     val context = LocalContext.current
     val imageLoader = remember { provideImageLoader(context) }
 
-    val weather = weatherState.weatherData
     val painter = rememberAsyncImagePainter(
         model = iconImage,
         imageLoader = imageLoader,
     )
 
-    val localTimeString = formatUnixToLocalTime(weather?.dt?.toLong() ?: 0, weather?.timeZone ?: 0)
+    val localTimeString = formatUnixToLocalTime(weatherData.dt.toLong(), weatherData.timezone)
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -91,15 +91,17 @@ fun WeatherCard(
                         contentDescription = null,
                     )
 
-                    Text(
-                        text = "Now",
-                        style = TextStyle(
-                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = MaterialTheme.typography.titleLarge.fontFamily,
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
+                    if (!isHistory) {
+                        Text(
+                            text = "Now",
+                            style = TextStyle(
+                                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = MaterialTheme.typography.titleLarge.fontFamily,
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
 
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
@@ -115,7 +117,7 @@ fun WeatherCard(
                     modifier = Modifier.padding(10.dp),
                 ) {
                     val formattedTemp =
-                        String.format("%.2f", kelvinToCelsius(weather?.temperature ?: 0.0))
+                        String.format("%.2f", kelvinToCelsius(weatherData.temperature))
                     Text(
                         text = "Temperature: $formattedTemp°C",
                         fontSize = MaterialTheme.typography.titleSmall.fontSize,
@@ -123,14 +125,14 @@ fun WeatherCard(
                     )
 
                     Text(
-                        text = "Weather: ${weather?.weatherMain}",
+                        text = "Weather: ${weatherData.weatherMain}",
                         fontSize = MaterialTheme.typography.titleSmall.fontSize,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
 
                     Text(
                         text = "Description: ${
-                            weather?.weatherDescription
+                            weatherData.weatherDescription
                                 ?.split(" ")
                                 ?.joinToString(" ")
                                 { word ->
@@ -142,17 +144,17 @@ fun WeatherCard(
                     )
 
                     val formattedTempC =
-                        String.format("%.2f", kelvinToCelsius(weather?.feelsLike ?: 0.0))
+                        String.format("%.2f", kelvinToCelsius(weatherData.feelsLike))
                     Text(
                         text = "Feels Like: $formattedTempC°C",
                         fontSize = MaterialTheme.typography.titleSmall.fontSize,
                     )
                     Text(
-                        text = "Humidity: ${weather?.humidity}%",
+                        text = "Humidity: ${weatherData.humidity}%",
                         fontSize = MaterialTheme.typography.titleSmall.fontSize,
                     )
                     Text(
-                        text = "Wind Speed: ${weather?.windSpeed} m/s",
+                        text = "Wind Speed: ${weatherData.windSpeed} m/s",
                         fontSize = MaterialTheme.typography.titleSmall.fontSize,
                     )
                 }
@@ -166,7 +168,7 @@ fun WeatherCard(
 private fun WeatherCardPreview() {
     AndroidTechnicalExerciseTheme {
         Surface {
-            WeatherCard(weatherState = WeatherState(), iconImage = 0)
+            WeatherCard(weatherData = WeatherData(), iconImage = 0)
         }
     }
 }

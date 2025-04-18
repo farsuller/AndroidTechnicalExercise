@@ -122,3 +122,8 @@ bundle-coil = [
     "coil-gif"
 ]
 
+bundle-room = [
+    "androidx-room-ktx",
+    "androidx-room-runtime"
+]
+

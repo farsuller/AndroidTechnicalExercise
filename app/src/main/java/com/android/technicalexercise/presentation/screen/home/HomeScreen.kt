@@ -9,7 +9,11 @@ import com.android.technicalexercise.presentation.screen.home.components.HomeTop
 import com.android.technicalexercise.presentation.screen.home.components.WeatherContent
 
 @Composable
-fun HomeScreen(weatherState: WeatherState, onSignOutClick: () -> Unit) {
+fun HomeScreen(
+    weatherState: WeatherState,
+    weatherHistoryState: WeatherHistoryState,
+    onSignOutClick: () -> Unit,
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { HomeTopBar(onSignOutClick = onSignOutClick) },
@@ -18,6 +22,7 @@ fun HomeScreen(weatherState: WeatherState, onSignOutClick: () -> Unit) {
         WeatherContent(
             paddingValues = innerPadding,
             weatherState = weatherState,
+            weatherHistoryState = weatherHistoryState,
         )
     }
 }

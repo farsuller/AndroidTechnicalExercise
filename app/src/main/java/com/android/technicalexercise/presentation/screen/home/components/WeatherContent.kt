@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -20,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.android.technicalexercise.R
+import com.android.technicalexercise.presentation.screen.home.WeatherHistoryState
 import com.android.technicalexercise.presentation.screen.home.WeatherState
 import com.android.technicalexercise.util.Tabs
 import com.android.technicalexercise.util.convertUnixToReadableTime
@@ -29,6 +32,7 @@ import com.android.technicalexercise.util.isNightTime
 fun WeatherContent(
     paddingValues: PaddingValues,
     weatherState: WeatherState,
+    weatherHistoryState: WeatherHistoryState,
 ) {
     var selectedTabIndex by remember { mutableIntStateOf(Tabs.HOME.ordinal) }
     val tabs = Tabs.entries
@@ -106,7 +110,7 @@ fun WeatherContent(
                                 )
                             }
 
-                            WeatherCard(weatherState = weatherState, iconImage = weatherIconNow)
+                            WeatherCard(weatherData = weatherState.weatherData, iconImage = weatherIconNow, isHistory = false)
 
                             Spacer(modifier = Modifier.height(20.dp))
                         }
@@ -115,6 +119,25 @@ fun WeatherContent(
             }
 
             Tabs.HISTORY -> {
+                when {
+                    weatherHistoryState.isLoading -> ContentLoading()
+                    weatherHistoryState.errorMessage != null -> ContentError(weatherHistoryState.errorMessage)
+                    weatherHistoryState.weatherHistory.isNotEmpty() -> {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(10.dp),
+                        ) {
+                            itemsIndexed(weatherHistoryState.weatherHistory.distinctBy { it.id }) { index, weather ->
+                                WeatherCard(
+                                    weatherData = weather,
+                                    iconImage = weatherIconNow,
+                                    isHistory = true,
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }

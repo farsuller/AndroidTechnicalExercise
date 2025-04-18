@@ -5,11 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.technicalexercise.domain.model.Location
+import com.android.technicalexercise.domain.model.WeatherData
 import com.android.technicalexercise.domain.usecase.WeatherUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -23,6 +27,9 @@ class HomeViewModel(
 
     private val _weatherState = MutableStateFlow(WeatherState())
     val weatherState: StateFlow<WeatherState> = _weatherState.asStateFlow()
+
+    private val _weatherHistoryState = MutableStateFlow(WeatherHistoryState())
+    val weatherHistoryState: StateFlow<WeatherHistoryState> = _weatherHistoryState.asStateFlow()
 
     fun updateLocation(location: Location) {
         _location.value = location
@@ -55,10 +62,10 @@ class HomeViewModel(
                                 cloudiness = weatherResponse.clouds.all,
                                 sunrise = weatherResponse.sys.sunrise,
                                 sunset = weatherResponse.sys.sunset,
-                                timezone = weatherResponse.timezone,
                                 country = weatherResponse.sys.country,
                                 dt = weatherResponse.dt,
-                                timeZone = weatherResponse.timezone,
+                                timezone = weatherResponse.timezone,
+                                timestamp = System.currentTimeMillis(),
                             ),
                             isLoading = false,
                             errorMessage = null,
@@ -66,5 +73,23 @@ class HomeViewModel(
                     }
                 }
             }
+    }
+
+    fun addWeather(weatherData: WeatherData) = viewModelScope.launch(Dispatchers.IO) {
+        weatherUseCase.addWeather(weatherData)
+    }
+
+    fun getWeatherHistory() {
+        weatherUseCase.getWeathers()
+            .onEach { data ->
+                _weatherHistoryState.update {
+                    it.copy(
+                        weatherHistory = data,
+                        isLoading = false,
+                        errorMessage = null,
+                    )
+                }
+            }
+            .launchIn(viewModelScope)
     }
 }

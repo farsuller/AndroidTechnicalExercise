@@ -69,6 +69,7 @@ fun WeatherNavigation(navController: NavHostController) {
 
             val location = homeViewModel.location.value
             val weatherState by homeViewModel.weatherState.collectAsStateWithLifecycle()
+            val weatherHistoryState by homeViewModel.weatherHistoryState.collectAsStateWithLifecycle()
 
             val context = LocalContext.current
             val locationUtils = remember { LocationUtils(context) }
@@ -92,9 +93,17 @@ fun WeatherNavigation(navController: NavHostController) {
                     )
                 }
             }
+            LaunchedEffect(weatherState.weatherData) {
+                weatherState.weatherData?.let {
+                    homeViewModel.addWeather(it)
+                }
+
+                homeViewModel.getWeatherHistory()
+            }
 
             HomeScreen(
                 weatherState = weatherState,
+                weatherHistoryState = weatherHistoryState,
                 onSignOutClick = {
                     authViewModel.signOut()
                     navController.navigate(LoginRoute)
