@@ -12,12 +12,12 @@ plugins {
 
 val keyProperties: Properties by lazy {
     val properties = Properties()
-    val localPropertiesFile = rootProject.file("key.properties")
+    val keyPropertiesFile = rootProject.file("key.properties")
 
-    if (localPropertiesFile.exists()) {
-        properties.load(localPropertiesFile.inputStream())
+    if (keyPropertiesFile.exists()) {
+        properties.load(keyPropertiesFile.inputStream())
     } else {
-        throw FileNotFoundException("Local properties file not found.")
+        throw FileNotFoundException("Key properties file not found.")
     }
     properties
 }
