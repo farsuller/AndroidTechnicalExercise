@@ -48,6 +48,7 @@ mockk = "1.13.9"
 navigationTesting = "2.8.9"
 koinTest = "3.5.3"
 koinTestJunit4 = "3.5.3"
+truth = "1.1.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -105,6 +106,8 @@ spotless = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", v
 
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

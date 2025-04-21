@@ -10,9 +10,9 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
 }
 
-val localProperties: Properties by lazy {
+val keyProperties: Properties by lazy {
     val properties = Properties()
-    val localPropertiesFile = rootProject.file("local.properties")
+    val localPropertiesFile = rootProject.file("key.properties")
 
     if (localPropertiesFile.exists()) {
         properties.load(localPropertiesFile.inputStream())
@@ -35,7 +35,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField(type = "String",name = "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+        buildConfigField(type = "String",name = "API_KEY", "\"${keyProperties.getProperty("API_KEY")}\"")
     }
 
     buildTypes {
@@ -111,6 +111,7 @@ dependencies {
     androidTestImplementation(libs.koin.test.junit4)
 
     androidTestImplementation (libs.mockk)
+    testImplementation (libs.truth)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
