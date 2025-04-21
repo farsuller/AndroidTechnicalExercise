@@ -27,6 +27,9 @@ jobs:
       - name: Create local.properties
         run: echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
 
+      - name: Create key.properties
+        run: echo "API_KEY=${{ secrets.API_KEY }}" > key.properties
+
       - name: Run Spotless with Gradle
         run: ./gradlew spotlessApply
 
